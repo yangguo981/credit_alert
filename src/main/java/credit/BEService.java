@@ -76,7 +76,7 @@ public class BEService {
             }
         }
 
-        return true;
+        return emailCache.isEmpty();
     }
 
     public Calendar getCalendar() {
@@ -100,7 +100,7 @@ public class BEService {
             long lastProcessTimestamp = Long.parseLong(line);
             // Send not long before, skip this round.
             // Send interval: 1 hour
-            if (currentTimestamp - lastProcessTimestamp <= 60 * 60) {
+            if (currentTimestamp - lastProcessTimestamp <= 60 * 60 * 4) {
                 System.out.format("Skip this round, current ts: %d, saved ts: %d%n", currentTimestamp, lastProcessTimestamp);
                 return;
             }
@@ -116,16 +116,26 @@ public class BEService {
             e.printStackTrace();
         }
 
-        while (trySendCacheContent()) {
-            // Sleep 15 minutes to send next round. Prevent blocked by smtp server.
-            Thread.sleep(1000 * 60 * 15);
+        int retryCacheCount = 3;
+        boolean succeed = false;
+        System.out.println(succeed);
+        while (!succeed && retryCacheCount-- != 0) {
+            if (!trySendCacheContent()) {
+                Thread.sleep(1000 * 60 * 15);
+                continue;
+            }
+            succeed = true;
         }
 
-        PrintWriter pw = new PrintWriter(checkpointFileName, "UTF-8");
-        pw.write(String.valueOf(currentTimestamp));
-        pw.flush();
-        pw.close();
-//        Runtime.getRuntime().exit(0);
+        System.out.println(succeed);
+
+        if (succeed) {
+            System.out.println("Update checkpoint file.");
+            PrintWriter pw = new PrintWriter(checkpointFileName, "UTF-8");
+            pw.write(String.valueOf(currentTimestamp));
+            pw.flush();
+            pw.close();
+        }
     }
 
     private void handleUnionReminder() throws IOException {

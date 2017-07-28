@@ -57,6 +57,7 @@ public class MailSender {
     }
 
     public boolean send(EmailContent ec) {
+//        return false;
         return send(ec.receiver, ec.subject, ec.body);
     }
 
@@ -88,9 +89,6 @@ public class MailSender {
             message.setText(body);
             if (!Util.testMode) {
                 Transport.send(message);
-                //if (Math.random() < 0.1) {
-                //    throw new Exception();
-                //}
             }
             System.out.println("mail send succeed: " + subject + " " + user + " " + receiver);
             System.out.println("mail content: " + body);
