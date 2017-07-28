@@ -57,10 +57,10 @@ public class BEService {
         return false;
     }
 
-    // false: nothing to send at this round.
-    // true: still something to send out at this round.
+    // False: Nothing to send after this round.
+    // True: Still something to send after this round finished.
     boolean trySendCacheContent() {
-        //System.out.println("handle mail in cache: " + emailCache.size());
+        System.out.println("handle mail in cache: " + emailCache.size());
         if (emailCache.isEmpty()) {
             return false;
         }
@@ -76,7 +76,8 @@ public class BEService {
             }
         }
 
-        return emailCache.isEmpty();
+        System.out.println("emailCache.isEmpty: " + emailCache.isEmpty());
+        return !emailCache.isEmpty();
     }
 
     public Calendar getCalendar() {
@@ -118,16 +119,15 @@ public class BEService {
 
         int retryCacheCount = 3;
         boolean succeed = false;
-        System.out.println(succeed);
         while (!succeed && retryCacheCount-- != 0) {
-            if (!trySendCacheContent()) {
+            if (trySendCacheContent()) {
                 Thread.sleep(1000 * 60 * 15);
                 continue;
             }
             succeed = true;
         }
 
-        System.out.println(succeed);
+        System.out.println("succeed : " + succeed);
 
         if (succeed) {
             System.out.println("Update checkpoint file.");
