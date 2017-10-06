@@ -25,6 +25,8 @@ import java.util.Set;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
+import static credit.Util.getAbsoluteFilePath;
+
 /**
  * Created by ychai on 7/27/17.
  */
@@ -87,7 +89,7 @@ public class BEService {
     public void run() throws Exception {
         sdf.setTimeZone(TimeZone.getTimeZone("GMT+8"));
 
-        final String checkpointFileName = "/Users/ychai/credit_alert_data/log.txt";
+        final String checkpointFileName = getAbsoluteFilePath("log.txt");
 
         File f = new File(checkpointFileName);
         if (!f.exists()) {
@@ -100,7 +102,7 @@ public class BEService {
             // timestamp in seconds.
             long lastProcessTimestamp = Long.parseLong(line);
             // Send not long before, skip this round.
-            // Send interval: 1 hour
+            // Send interval: 4 hour
             if (currentTimestamp - lastProcessTimestamp <= 60 * 60 * 4) {
                 System.out.format("Skip this round, current ts: %d, saved ts: %d%n", currentTimestamp, lastProcessTimestamp);
                 return;
@@ -141,7 +143,7 @@ public class BEService {
     private void handleUnionReminder() throws IOException {
         List<String> buffer = new ArrayList<>();
         List<UnionActivity> unionActivities = new ArrayList<>();
-        for (String line : Util.readFileContent(new FileInputStream(new File("/Users/ychai/credit_alert_data/union.txt")))) {
+        for (String line : Util.readFileContent(new FileInputStream(new File(getAbsoluteFilePath("union.txt"))))) {
             if (line.startsWith("#")) {
                 continue;
             }
@@ -306,7 +308,7 @@ public class BEService {
         Calendar today = getCalendar();
         today.setTimeInMillis(System.currentTimeMillis());
 
-        for (String line : Util.readFileContent(new FileInputStream(new File("/Users/ychai/credit_alert_data/credit.txt")))) {
+        for (String line : Util.readFileContent(new FileInputStream(new File(getAbsoluteFilePath("credit.txt"))))) {
             CreditCard cardInfo = extractCreditCardInformation(line.trim());
 
             Calendar firstPayDate = getNearestPayDateOfGivenBillDate(

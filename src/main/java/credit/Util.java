@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -118,4 +119,17 @@ public class Util {
     }
 
     public static boolean testMode = false;
+
+    static String parentDirectory = Paths.get("/Users", "yangyang", "credit_alert_data").toString();
+
+    public static String getAbsoluteFilePath(String suffix) {
+        return Paths.get(parentDirectory, suffix).toString();
+    }
+
+    public static String getAbsoluteFilePath(String pd, String suffix) {
+        return Paths.get(pd, suffix).toString();
+    }
+    public static void main(String[] args) {
+        System.out.println(getAbsoluteFilePath("lock"));
+    }
 }

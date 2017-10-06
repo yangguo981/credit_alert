@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/yy.credit_alert.iml" filepath="$PROJECT_DIR$/.idea/modules/yy.credit_alert.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/yy.credit_alert_main.iml" filepath="$PROJECT_DIR$/.idea/modules/yy.credit_alert_main.iml" group="yy.credit_alert" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/yy.credit_alert_test.iml" filepath="$PROJECT_DIR$/.idea/modules/yy.credit_alert_test.iml" group="yy.credit_alert" />
+    </modules>
+  </component>
+</project>
