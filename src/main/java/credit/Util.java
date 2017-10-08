@@ -13,6 +13,7 @@ import java.util.Properties;
  * Created by ychai on 7/27/17.
  */
 public class Util {
+
     public static List<String> readFileContent(InputStream is) {
         List<String> ret = new ArrayList<>();
         try {
@@ -120,15 +121,14 @@ public class Util {
 
     public static boolean testMode = false;
 
-    static String parentDirectory = Paths.get("/Users", "yangyang", "credit_alert_data").toString();
+    //    public static String parentDirectory = Paths.get("/Users", "yangyang", "credit_alert_data").toString();
+    public static String parentDirectory;
+    public static Integer sendMailIntervalHour;
 
     public static String getAbsoluteFilePath(String suffix) {
         return Paths.get(parentDirectory, suffix).toString();
     }
 
-    public static String getAbsoluteFilePath(String pd, String suffix) {
-        return Paths.get(pd, suffix).toString();
-    }
     public static void main(String[] args) {
         System.out.println(getAbsoluteFilePath("lock"));
     }

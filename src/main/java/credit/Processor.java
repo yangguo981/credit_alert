@@ -13,14 +13,18 @@ import static credit.Util.parentDirectory;
 public class Processor {
     public static void main(String[] args) throws IOException {
 //        final String lockFileName = getAbsoluteFilePath("lock");
-        final String lockFileName = getAbsoluteFilePath(args[0], "lock");
+        // Hack, pass the arguments everywhere.  Should use singleton mode.
+        Util.parentDirectory = args[0];
+        Util.sendMailIntervalHour = Integer.parseInt(args[1]);
+
+        final String lockFileName = getAbsoluteFilePath("lock");
         System.out.println(lockFileName);
 
         File lockFile = new File(lockFileName);
         if (!lockFile.createNewFile()) {
             // Create test file with specified timestamp: touch -t 201710061111 lock
             long minutes = (System.currentTimeMillis() - lockFile.lastModified()) / (1000 * 60);
-            if (minutes > 60 * 10) {
+            if (minutes > 60 * 1) {
                 // TODO, find a way to clear the existing bad process.
                 // The lock has been hold for too long time, something goes wrong.
                 // Here we just run another processor directly and clear the lock, but the bad process is still running.

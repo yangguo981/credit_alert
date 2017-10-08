@@ -103,7 +103,7 @@ public class BEService {
             long lastProcessTimestamp = Long.parseLong(line);
             // Send not long before, skip this round.
             // Send interval: 4 hour
-            if (currentTimestamp - lastProcessTimestamp <= 60 * 60 * 4) {
+            if (currentTimestamp - lastProcessTimestamp <= 60 * 60 * Util.sendMailIntervalHour) {
                 System.out.format("Skip this round, current ts: %d, saved ts: %d%n", currentTimestamp, lastProcessTimestamp);
                 return;
             }

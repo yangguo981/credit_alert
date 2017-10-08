@@ -9,7 +9,7 @@ To run:
     don’t use the default path, it’s doesn’t work.  Select checkbox “Build on make”.
   - Build -> build artifacts -> build, it will output to “out/artifacts/yy_credit_alert_jar”
 
-* Run the jar: "java -jar yy.credit_alert.jar"
+* Run the jar: "java -jar /Users/yangyang/credit_alert_data/x.y.jar /Users/yangyang/credit_alert_data 24"
 
 * Config: Currently the config file path is hardcoded:
   - "/Users/ychai/credit_alert_data"
